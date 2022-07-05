@@ -1,6 +1,6 @@
 # Bruce Bjostad Student ID:009839410
 
-from cli import MainMenu
+from cli import main_menu
 
 if __name__ == '__main__':
-    MainMenu.main_menu()
+    main_menu()
