@@ -1,6 +1,6 @@
 # Bruce Bjostad Student ID:009839410
 
-# O(n) space time complexity
+# O(1) space time complexity
 def main_menu():
     print("Welcome to WGUPS Logistics. \n"
           "Please select from the following options:\n"
@@ -18,6 +18,7 @@ def main_menu():
     elif user_choice == '3':
         exit()
     else:
+
         print("Invalid Selection, please try again.\n")
         main_menu()
 
