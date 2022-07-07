@@ -12,5 +12,3 @@ def collect_packages():
     return sorted_packages
 
 
-hashed_packages = collect_packages()
-print(hashed_packages)
