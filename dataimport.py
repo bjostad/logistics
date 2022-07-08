@@ -1,4 +1,5 @@
 # Bruce Bjostad Student ID:009839410
+
 import csv
 from hash import HashTable
 
@@ -10,5 +11,4 @@ def collect_packages():
         for p in manifest:
             sorted_packages.add_package(p)
     return sorted_packages
-
 

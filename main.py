@@ -1,6 +1,7 @@
 # Bruce Bjostad Student ID:009839410
-import hash
-from cli import main_menu
+from cli import Menu
 
 if __name__ == '__main__':
-    main_menu()
+    user_menu = Menu()
+    user_menu.main_menu()
+
