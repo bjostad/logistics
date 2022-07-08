@@ -1,6 +1,6 @@
 # Bruce Bjostad Student ID:009839410
 
-class HashTable:
+class HashMap:
 
     # Construct a list of 10 empty lists
     # O(N)
