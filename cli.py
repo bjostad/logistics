@@ -1,6 +1,6 @@
 # Bruce Bjostad Student ID:009839410
-
-from package import hashed_packages
+import package
+from dataimport import hashed_packages
 
 
 class Menu:
@@ -20,20 +20,34 @@ class Menu:
         if user_choice == '1':
             self.all_status()
         elif user_choice == '2':
-            self.track_package()
+            self.single_status()
         elif user_choice == '3':
             exit()
         else:
             print("Invalid Selection, please try again.\n")
             self.main_menu()
 
+    #Display the status of all packages
+    #O(N)
     def all_status(self):
-        print("All Package Status placeholder\n")
+        print("Status of all packages")
+        print("| {:<2} | {:^40} {:^16} {:<2} {:^5} | {:^15} | {:^22} |".format("#", "Address", "City", "St", "Zip",
+                                                                               "Deadline", "Status"))
+        for i in range(1, len(hashed_packages)+1):
+            p = hashed_packages.find_package(str(i))
+            print("| {:<2} | {:^40} {:^16} {:<2} {:^5} | {:^15} | {:^22} |"
+                  .format(p.id, p.address, p.city, p.st, p.zip, p.deadline, p.status))
+        input("Press enter to return to menu.")
         self.main_menu()
 
-    def track_package(self):
+    #Display the status of a single selected package
+    #O(N)
+    def single_status(self):
         package_choice = input("What is the package ID you would like to track: ")
-        print(hashed_packages.find_package(package_choice))
-        hashed_packages.remove_package_by_id(package_choice)
+        p = hashed_packages.find_package(package_choice)
+        print("| {:<2} | {:^40} {:^16} {:<2} {:^5} | {:^15} | {:^22} |".format("#", "Address", "City", "St", "Zip",
+                                                                               "Deadline", "Status"))
+        print("| {:<2} | {:^40} {:^16} {:<2} {:^5} | {:^15} | {:^22} |"
+              .format(p.id, p.address, p.city, p.st, p.zip, p.deadline, p.status))
         input("Press enter to return to menu.")
         self.main_menu()
