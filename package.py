@@ -2,6 +2,7 @@
 
 class Package:
 
+    # Construct Package object
     def __init__(self, id: int, address: str, city: str, st: str, zip: int, deadline: str, status: str):
         self.id = id
         self.address = address
@@ -17,5 +18,7 @@ class Package:
     def deliver_package(self, delivery_time):
         self.status = "Delivered at " + delivery_time
 
+    # Change package status to En Route to show its on a truck to be delivered
+    # O(1)
     def en_route(self, truck_number):
         self.status = "En Route on Truck " + str(truck_number)
