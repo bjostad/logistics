@@ -3,7 +3,7 @@ import csv
 
 from hash import HashMap
 from package import Package
-from distance import distance
+from distance import Distance
 
 
 #Create 2d array of distances from csv
@@ -19,7 +19,7 @@ def create_atlas():
     with open("./data/locations.csv", "r", encoding='utf-8-sig') as location_csv:
         for row in csv.reader(location_csv, delimiter=','):
             locations[row[2].strip()] = row
-    return distance(distances, locations)
+    return Distance(distances, locations)
 
 
 #import packages and sort them via the created hash class
@@ -32,13 +32,3 @@ def collect_packages():
             sorted_packages.add_package(new_package)
     return sorted_packages
 
-
-hashed_packages = collect_packages()
-atlas = create_atlas()
-
-
-
-print(atlas.get_index("1330 2100 S"))
-print(atlas.get_index("2010 W 500 S"))
-print(("1330 2100 S", "1330 2100 S"))
-print(atlas.get_distance("1330 2100 S", "5100 South 2700 West"))

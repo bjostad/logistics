@@ -15,10 +15,15 @@ class Package:
 
     # Change package status to delivered and set time of delivery
     # O(1)
-    def deliver_package(self, delivery_time):
-        self.status = "Delivered at " + delivery_time
+    def deliver(self, delivery_time):
+        self.status = "Delivered at " + str(delivery_time)
 
     # Change package status to En Route to show its on a truck to be delivered
     # O(1)
     def en_route(self, truck_number):
         self.status = "En Route on Truck " + str(truck_number)
+
+    #Update Address of package
+    #O(1)
+    def update_address(self, address):
+        self.address = address

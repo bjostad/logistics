@@ -1,7 +1,7 @@
 # Bruce Bjostad Student ID:009839410
 import package
-from dataimport import hashed_packages
-
+from logistics import collected_packages
+from logistics import truck_reports
 
 class Menu:
 
@@ -33,18 +33,19 @@ class Menu:
         print("Status of all packages")
         print("| {:<2} | {:^40} {:^16} {:<2} {:^5} | {:^15} | {:^22} |".format("#", "Address", "City", "St", "Zip",
                                                                                "Deadline", "Status"))
-        for i in range(1, len(hashed_packages)+1):
-            p = hashed_packages.find_package(str(i))
+        for i in range(1, len(collected_packages) + 1):
+            p = collected_packages.find_package(str(i))
             print("| {:<2} | {:^40} {:^16} {:<2} {:^5} | {:^15} | {:^22} |"
                   .format(p.id, p.address, p.city, p.st, p.zip, p.deadline, p.status))
-        input("Press enter to return to menu.")
+        truck_reports()
+        input("\nPress enter to return to menu.")
         self.main_menu()
 
     #Display the status of a single selected package
     #O(N)
     def single_status(self):
         package_choice = input("What is the package ID you would like to track: ")
-        p = hashed_packages.find_package(package_choice)
+        p = collected_packages.find_package(package_choice)
         print("| {:<2} | {:^40} {:^16} {:<2} {:^5} | {:^15} | {:^22} |".format("#", "Address", "City", "St", "Zip",
                                                                                "Deadline", "Status"))
         print("| {:<2} | {:^40} {:^16} {:<2} {:^5} | {:^15} | {:^22} |"

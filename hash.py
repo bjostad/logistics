@@ -23,14 +23,14 @@ class HashMap:
     def remove_package_by_id(self, package_id):
         bucket = int(package_id) % len(self.map)
         for p in self.map[bucket]:
-            if p[0] == int(package_id):
+            if p.id == int(package_id):
                 self.map[bucket].remove(p)
 
     # Find package by package object
     # Remove package if found in nested list
     # O(N)
     def remove_package_by_package(self, package):
-        bucket = int(package[0]) % len(self.map)
+        bucket = int(package.id) % len(self.map)
         if package in self.map[bucket]:
             self.map[bucket].remove(package)
 
