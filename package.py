@@ -21,7 +21,7 @@ class Package:
     # Change package status to Loaded on Truck to show its on a truck to be delivered
     # O(1)
     def loaded(self, truck_number):
-        self.status = "Loaded on Truck " + str(truck_number)
+        self.status = "WGUPS HUB - Truck " + str(truck_number)
 
 
     # Change package status to En Route to show its out for delivery

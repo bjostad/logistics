@@ -13,7 +13,7 @@ class Logistics:
     stop_time = timedelta(hours=8, minutes=00)
     truck1 = Truck(1, timedelta(hours=8, minutes=0), timedelta(hours=14, minutes=25), atlas)
     truck2 = Truck(2, timedelta(hours=9, minutes=5), timedelta(hours=14, minutes=25), atlas)
-    truck3 = Truck(3, timedelta(hours=10, minutes=25), timedelta(hours=14, minutes=25), atlas)
+    truck3 = Truck(3, timedelta(hours=10, minutes=20), timedelta(hours=14, minutes=25), atlas)
 
     def __init__(self):
         pass
@@ -36,7 +36,7 @@ class Logistics:
         stop_time = self.set_stop_time()
         truck1 = Truck(1, timedelta(hours=8, minutes=0), stop_time, self.atlas)
         truck2 = Truck(2, timedelta(hours=9, minutes=5), stop_time, self.atlas)
-        truck3 = Truck(3, timedelta(hours=10, minutes=25), stop_time, self.atlas)
+        truck3 = Truck(3, timedelta(hours=10, minutes=20), stop_time, self.atlas)
 
         self.load_truck(truck1, first_load_manifest)
         truck1.run_route()
@@ -46,18 +46,23 @@ class Logistics:
 
         truck1.return_to_hub()
 
-        if truck3.start_time + truck2.total_delivery_time > timedelta(hours=10, minutes=19):
-            package9 = self.collected_packages.find_package(9)
-            package9.update_address("410 S State St")
-
         self.load_truck(truck3, third_load_manifest)
         truck3.run_route()
         self.truck_reports(truck1, truck2, truck3)
+        self.truck_totals(truck1, truck2, truck3)
 
     def truck_reports(self, truck1, truck2, truck3):
         truck1.truck_report()
         truck2.truck_report()
         truck3.truck_report()
+
+
+    def truck_totals(self, truck1, truck2, truck3):
+        all_truck_total_time = truck1.total_delivery_time + truck2.total_delivery_time + truck3.total_delivery_time
+        all_trucks_total_distance = truck1.total_distance + truck2.total_distance + truck3.total_distance
+        print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= Trucks Total "
+              "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
+        print("Total Time: " + str(all_truck_total_time) + "     |    Total Distance Traveled: "
+              + str(all_trucks_total_distance) + " miles")
         print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- "
               "STATUS OF ALL PACKAGES =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
-

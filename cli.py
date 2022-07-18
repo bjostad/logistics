@@ -55,3 +55,4 @@ class Menu:
               .format(p.id, p.address, p.city, p.st, p.zip, p.deadline, p.status))
         input("Press enter to return to menu.")
         self.main_menu()
+
