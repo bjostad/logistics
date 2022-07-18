@@ -19,8 +19,9 @@ class Truck:
     # Set package to En Route status
     # O(1)
     def load_package(self, package):
-        self.manifest[package.id] = package
-        package.en_route(self.truck_number)
+        if ((self.start_time - timedelta(minutes=30)) < self.stop_time):
+            self.manifest[package.id] = package
+            package.loaded(self.truck_number)
 
     # Delivery provided package
     # Add distance to truck total distance
@@ -38,13 +39,15 @@ class Truck:
     # Obtain next package and determine if it can be delivered in time
     # O(N^2)
     def run_route(self):
+        if ((self.start_time + self.total_delivery_time) < self.stop_time):
+            for p in self.manifest.values():
+                p.en_route(self.truck_number)
         for i in range(len(self.manifest)):
             current_package = self.next_package()
             if ((self.start_time + self.total_delivery_time +timedelta(minutes=current_package[1]/0.3)) < self.stop_time):
                 self.deliver_package(current_package[0], current_package[1])
             else:
                 break
-
 
     def next_package(self):
         next_package = "none"
@@ -58,12 +61,13 @@ class Truck:
 
     def return_to_hub(self):
         distance = self.atlas.get_distance(self.current_location, "4001 South 700 East")
-        self.total_distance = self.total_distance + distance
-        self.total_delivery_time = self.total_delivery_time + timedelta(minutes=distance / 0.3)
-        self.current_location = "4001 South 700 East"
-
+        if ((self.start_time + self.total_delivery_time + timedelta(
+                minutes=distance / 0.3)) < self.stop_time):
+            self.total_distance = self.total_distance + distance
+            self.total_delivery_time = self.total_delivery_time + timedelta(minutes=distance / 0.3)
+            self.current_location = "4001 South 700 East"
 
     def truck_report(self):
-        print("-=-=-=-=-=-=-=- Truck " + str(self.truck_number) +" -=-=-=-=-=-=-=-")
-        print("Total Time: " + str(self.total_delivery_time))
+        print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- Truck " + str(self.truck_number) +" -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
+        print("Total Time: " + str(self.total_delivery_time) + "   Start Time: " + str(self.start_time) + "   End Time: " + str(self.start_time + self.total_delivery_time))
         print("Total Distance traveled: " + str(self.total_distance) + " miles")

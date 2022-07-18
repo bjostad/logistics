@@ -1,9 +1,10 @@
 # Bruce Bjostad Student ID:009839410
-import package
-from logistics import collected_packages
-from logistics import truck_reports
+
+from logistics import Logistics
 
 class Menu:
+
+    wgups = Logistics
 
     def __init__(self):
         pass
@@ -30,14 +31,15 @@ class Menu:
     #Display the status of all packages
     #O(N)
     def all_status(self):
-        print("Status of all packages")
-        print("| {:<2} | {:^40} {:^16} {:<2} {:^5} | {:^15} | {:^22} |".format("#", "Address", "City", "St", "Zip",
-                                                                               "Deadline", "Status"))
-        for i in range(1, len(collected_packages) + 1):
-            p = collected_packages.find_package(str(i))
+        self.wgups.deliver(self.wgups())
+        print("| {:<2} | {:^40} {:^16} {:<2} {:^5} | {:^15} | {:^22} |"
+              .format("#", "Address", "City", "St", "Zip", "Deadline", "Status"))
+        for i in range(1, len(self.wgups.collected_packages) + 1):
+            p = self.wgups.collected_packages.find_package(str(i))
             print("| {:<2} | {:^40} {:^16} {:<2} {:^5} | {:^15} | {:^22} |"
                   .format(p.id, p.address, p.city, p.st, p.zip, p.deadline, p.status))
-        truck_reports()
+        print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
+              "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
         input("\nPress enter to return to menu.")
         self.main_menu()
 
@@ -45,7 +47,8 @@ class Menu:
     #O(N)
     def single_status(self):
         package_choice = input("What is the package ID you would like to track: ")
-        p = collected_packages.find_package(package_choice)
+        self.wgups.deliver(self.wgups())
+        p = self.wgups.collected_packages.find_package(package_choice)
         print("| {:<2} | {:^40} {:^16} {:<2} {:^5} | {:^15} | {:^22} |".format("#", "Address", "City", "St", "Zip",
                                                                                "Deadline", "Status"))
         print("| {:<2} | {:^40} {:^16} {:<2} {:^5} | {:^15} | {:^22} |"

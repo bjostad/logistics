@@ -18,7 +18,13 @@ class Package:
     def deliver(self, delivery_time):
         self.status = "Delivered at " + str(delivery_time)
 
-    # Change package status to En Route to show its on a truck to be delivered
+    # Change package status to Loaded on Truck to show its on a truck to be delivered
+    # O(1)
+    def loaded(self, truck_number):
+        self.status = "Loaded on Truck " + str(truck_number)
+
+
+    # Change package status to En Route to show its out for delivery
     # O(1)
     def en_route(self, truck_number):
         self.status = "En Route on Truck " + str(truck_number)

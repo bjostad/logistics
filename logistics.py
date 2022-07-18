@@ -5,68 +5,59 @@ from dataimport import create_atlas
 from dataimport import collect_packages
 from truck import Truck
 
-collected_packages = collect_packages()
-atlas = create_atlas()
 
-first_load_manifest = [1,5,8,13,14,15,16,19,20,29,30,31,34,37,39,40]
-second_load_manifest = [3,6,18,25,28,32,36,38,26,4,17,21,11,23]
-third_load_manifest = [9,2,33,7,10,27,35]
-fourth_load_manifest = [24,22,12]
+class Logistics:
 
-# first_load_manifest = [2,4,7,13,14,15,16,17,19,27,29,31,33,34,35,40]
-# second_load_manifest = [3,5,6,8,9,18,24,25,28,30,31,32,36,37,38]
-# third_load_manifest = [1,39]
-#
+    atlas = create_atlas()
+    collected_packages = collect_packages()
+    stop_time = timedelta(hours=8, minutes=00)
+    truck1 = Truck(1, timedelta(hours=8, minutes=0), timedelta(hours=14, minutes=25), atlas)
+    truck2 = Truck(2, timedelta(hours=9, minutes=5), timedelta(hours=14, minutes=25), atlas)
+    truck3 = Truck(3, timedelta(hours=10, minutes=25), timedelta(hours=14, minutes=25), atlas)
 
+    def __init__(self):
+        pass
 
-truck1 = Truck(1, timedelta(hours=8, minutes=0), timedelta(hours=11, minutes=00), atlas)
-truck2 = Truck(2, timedelta(hours=9, minutes=5), timedelta(hours=17, minutes=00), atlas)
-truck3 = Truck(3, timedelta(hours=10, minutes=25), timedelta(hours=20, minutes=00), atlas)
+    def set_stop_time(self):
+        selected_stop_time = input("What time is it? (hh:mm)")
+        hours, minutes = map(int, selected_stop_time.split(':'))
+        fixed_stop_time = timedelta(hours=hours, minutes=minutes)
+        return fixed_stop_time
 
-def load_truck(truck: Truck, manifest: list):
-    for id in manifest:
-        truck.load_package(collected_packages.find_package(id))
+    def load_truck(self, truck: Truck, manifest: list):
+        for id in manifest:
+            truck.load_package(self.collected_packages.find_package(id))
 
+    def deliver(self):
+        first_load_manifest = [1, 5, 8, 13, 14, 15, 16, 19, 20, 29, 30, 31, 34, 37, 39, 40]
+        second_load_manifest = [3, 6, 18, 25, 28, 32, 36, 38, 26, 4, 17, 21, 11, 23, 24, 22]
+        third_load_manifest = [9, 2, 33, 7, 10, 27, 35, 12]
 
-load_truck(truck1, first_load_manifest)
-truck1.run_route()
+        stop_time = self.set_stop_time()
+        truck1 = Truck(1, timedelta(hours=8, minutes=0), stop_time, self.atlas)
+        truck2 = Truck(2, timedelta(hours=9, minutes=5), stop_time, self.atlas)
+        truck3 = Truck(3, timedelta(hours=10, minutes=25), stop_time, self.atlas)
 
-load_truck(truck2, second_load_manifest)
-truck2.run_route()
+        self.load_truck(truck1, first_load_manifest)
+        truck1.run_route()
 
-truck1.return_to_hub()
-truck2.return_to_hub()
+        self.load_truck(truck2, second_load_manifest)
+        truck2.run_route()
 
-package9 = collected_packages.find_package(9)
-package9.update_address("410 S State St")
+        truck1.return_to_hub()
 
+        if truck3.start_time + truck2.total_delivery_time > timedelta(hours=10, minutes=19):
+            package9 = self.collected_packages.find_package(9)
+            package9.update_address("410 S State St")
 
-load_truck(truck3, third_load_manifest)
-truck3.run_route()
-load_truck(truck2, fourth_load_manifest)
-truck2.run_route()
+        self.load_truck(truck3, third_load_manifest)
+        truck3.run_route()
+        self.truck_reports(truck1, truck2, truck3)
 
-def truck_reports():
-    truck1.truck_report()
-    truck2.truck_report()
-    truck3.truck_report()
-
-
-
-# testing packages and deliveries
-# pkg1 = hashed_packages.find_package(1)
-# pkg13 = hashed_packages.find_package(13)
-# pkg23 = hashed_packages.find_package(23)
-# pkg33 = hashed_packages.find_package(33)
-#
-# truck1 = Truck(1, timedelta(hours=9, minutes=0))
-# truck1.load_package(pkg1)
-# truck1.load_package(pkg13)
-# truck1.load_package(pkg23)
-# truck1.load_package(pkg33)
-# truck1.deliver_package(pkg13, atlas.get_distance(truck1.current_location, pkg13.address))
-# truck1.deliver_package(pkg23, atlas.get_distance(truck1.current_location, pkg23.address))
-# truck1.deliver_package(pkg33, atlas.get_distance(truck1.current_location, pkg33.address))
-#
-# print(truck1)
+    def truck_reports(self, truck1, truck2, truck3):
+        truck1.truck_report()
+        truck2.truck_report()
+        truck3.truck_report()
+        print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- "
+              "STATUS OF ALL PACKAGES =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
 
