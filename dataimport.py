@@ -1,15 +1,16 @@
 # Bruce Bjostad Student ID:009839410
 import csv
 
-from hash import HashMap
+from hash import HashTable
 from package import Package
 from distance import Distance
 
 
-#Create 2d array of distances from csv
-#Create dict of addresses from csv
-#return distance object
-#O(N^3)
+# Create 2d array of distances from csv
+# Create dict of addresses from csv
+# return distance object
+# O(N^2) Time complexity
+# O(N) Space complexity
 def create_atlas():
     distances = []
     with open("./data/distances.csv", "r", encoding='utf-8-sig') as distance_csv:
@@ -22,10 +23,10 @@ def create_atlas():
     return Distance(distances, locations)
 
 
-#import packages and sort them via the created hash class
-#O(N)
+# Import packages and sort them via the created hash class
+# O(N)
 def collect_packages():
-    sorted_packages = HashMap()
+    sorted_packages = HashTable()
     with open("./data/packages.csv", "r", encoding='utf-8-sig' ) as package_csv:
         for p in csv.reader(package_csv, delimiter=','):
             new_package = Package(int(p[0]), p[1], p[2], p[3], int(p[4]), p[5], "AT WGUPS HUB")

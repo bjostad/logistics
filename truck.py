@@ -4,6 +4,8 @@ from datetime import timedelta
 
 class Truck:
 
+    # Contruct Truck
+    # O(1)
     def __init__(self, truck_number,start_time, stop_time, atlas):
         self.truck_number = truck_number
         self.manifest = {}
@@ -35,7 +37,10 @@ class Truck:
         self.current_location = package.address
         return self.manifest.pop(package.id)
 
+    # WGUPS LOGISTICS NEAREST NEIGHBOR ALGORITHM
+    # This uses the nearest neighbor algorith, which is greedy
     # Begin delivering packages on truck manifest
+    # Change status of packages to En Route
     # Obtain next package and determine if it can be delivered in time
     # O(N^2)
     def run_route(self):
@@ -50,6 +55,12 @@ class Truck:
             else:
                 break
 
+    # Find the closest package to the current location and return it
+    # For each remaining package on the truck, check for updates
+    # Check if it's closer than the current closest distance
+    # If so, make it the next package and check the next package
+    # Return list of closest package and distance
+    # O(N)
     def next_package(self):
         next_package = "none"
         next_distance = 100.0
@@ -61,10 +72,14 @@ class Truck:
                 next_distance = p_distance
         return [next_package, next_distance]
 
+    # Check for package updates (such as address update for packaage 9)
+    # O(1)
     def check_package_updates(self, p):
         if p.id == 9:
             p.update_address("410 S State St")
 
+    # Return truck to hub and add time and distance to truck total
+    # O(1)
     def return_to_hub(self):
         distance = self.atlas.get_distance(self.current_location, "4001 South 700 East")
         if ((self.start_time + self.total_delivery_time + timedelta(
@@ -73,6 +88,8 @@ class Truck:
             self.total_delivery_time = self.total_delivery_time + timedelta(minutes=distance / 0.3)
             self.current_location = "4001 South 700 East"
 
+    # Output report for this truck
+    # O(1)
     def truck_report(self):
         print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- Truck "
               + str(self.truck_number) +" -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")

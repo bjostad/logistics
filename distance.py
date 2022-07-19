@@ -1,6 +1,5 @@
 # Bruce Bjostad Student ID:009839410
 
-
 class Distance:
 
     #Constuct distance object

@@ -2,7 +2,8 @@
 
 class Package:
 
-    # Construct Package object
+    # Construct Package
+    # O(1)
     def __init__(self, id: int, address: str, city: str, st: str, zip: int, deadline: str, status: str):
         self.id = id
         self.address = address
